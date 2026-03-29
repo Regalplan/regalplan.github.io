@@ -2930,7 +2930,7 @@ Verkäufer kontaktieren" und füge den Code in die Nachricht ein.</span></li>
                     <div class="mdp-row"><span class="mdp-label">Regalfarbe</span><span class="mdp-value not-set" id="mdp-shelfcolor">nicht gewählt</span></div>
                     <div class="mdp-row" id="mdp-shelfcount-row"><span class="mdp-label">Innere Böden</span><span class="mdp-value not-set" id="mdp-shelfcount">nicht gewählt</span></div>
                     <div class="mdp-row" id="mdp-gap-row"><span class="mdp-label">Abstand zwischen Böden</span><span class="mdp-value not-set" id="mdp-gap">—</span></div>
-                    <div class="mdp-row" id="mdp-custompos-surcharge-row" style="display:none"><span class="mdp-label">Eigene Anordn.</span><span class="mdp-value" style="color:#dc2626;font-weight:800">+50€ dopłata</span></div>
+                    <div class="mdp-row" id="mdp-custompos-surcharge-row" style="display:none"><span class="mdp-label">Eigene Anordn.</span><span class="mdp-value" style="color:#dc2626;font-weight:800">+12 €</span></div>
                     <div class="mdp-row" id="mdp-extras-row"><span class="mdp-label">Optionen</span><span class="mdp-value" id="mdp-extras">Standard</span></div>
                 </div>
             </div>
@@ -2956,7 +2956,7 @@ Verkäufer kontaktieren" und füge den Code in die Nachricht ein.</span></li>
             <div id="mobile3dTopBar">
                 <!-- CENA -->
                 <div id="topBarPrice">
-                    <span id="topBarPriceLabel">CENA</span>
+                    <span id="topBarPriceLabel">PREIS</span>
                     <span id="topBarPriceOrig"></span>
                     <span id="topBarPriceValue">—</span>
                 </div>
@@ -4311,9 +4311,9 @@ Verkäufer kontaktieren" und füge den Code in die Nachricht ein.</span></li>
         function getColorHex(label) {
     if (!label) return '#888';
     const l = label.toLowerCase();
-    if (l.includes('ąb') || l.includes('ab') || l.includes('dąb')) return '#8B5A2B';
-    if (l.includes('biał') || l.includes('bial') || l.includes('white')) return '#FFFFFF';
-    if (l.includes('czarn') || l.includes('black')) return '#000000';
+    if (l.includes('eiche') || l.includes('ąb') || l.includes('dab') || l.includes('dąb') || l.includes('craft')) return '#8B5A2B';
+    if (l.includes('weiß') || l.includes('weiss') || l.includes('biał') || l.includes('bial') || l.includes('white')) return '#FFFFFF';
+    if (l.includes('schwarz') || l.includes('czarn') || l.includes('black')) return '#000000';
     return '#888888';
 }
 function updateCartDisplay() { if (!cartItemsContainer || !cartBadges) return; const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0); const justGotDiscount = (totalItems === 1 && previousCartItemCount === 0) || (totalItems >= 2 && previousCartItemCount < 2); cartItemsContainer.innerHTML = ''; if (cart.length === 0) { if(cartEmptyMessage) { cartEmptyMessage.style.display = 'block'; cartItemsContainer.appendChild(cartEmptyMessage); } } else { if(cartEmptyMessage) cartEmptyMessage.style.display = 'none'; cart.forEach(item => { const itemElement = document.createElement('div');
@@ -4323,7 +4323,7 @@ function updateCartDisplay() { if (!cartItemsContainer || !cartBadges) return; c
         
         itemElement.innerHTML = `
             <div class="cart-item-thumb" data-snap="${item.snapshot||''}">
-                ${item.snapshot ? `<img src="${item.snapshot}" alt="${item.name}">` : '<div style="font-size:10px;color:#d1d5db;text-align:center;padding:8px">brak</div>'}
+                ${item.snapshot ? `<img src="${item.snapshot}" alt="${item.name}">` : '<div style="font-size:10px;color:#d1d5db;text-align:center;padding:8px">—</div>'}
             </div>
             <div class="cart-item-body">
                 <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">
@@ -4378,7 +4378,7 @@ function updateCartDisplay() { if (!cartItemsContainer || !cartBadges) return; c
         itemCard.className = 'cart-item-card'; 
         itemCard.innerHTML = `
             <div class="cart-item-thumb" data-snap="${item.snapshot||''}">
-                ${item.snapshot ? `<img src="${item.snapshot}" alt="${item.name}">` : '<div style="font-size:10px;color:#d1d5db;text-align:center;padding:8px">brak</div>'}
+                ${item.snapshot ? `<img src="${item.snapshot}" alt="${item.name}">` : '<div style="font-size:10px;color:#d1d5db;text-align:center;padding:8px">—</div>'}
             </div>
             <div class="cart-item-body">
                 <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">
@@ -4394,7 +4394,7 @@ function updateCartDisplay() { if (!cartItemsContainer || !cartBadges) return; c
                     <span class="cart-item-spec-val"><span class="cart-item-color-dot" style="background:${getColorHex(item.sideColor)}"></span>${item.sideColor}</span>
                     <span class="cart-item-spec-label">Regalfarbe</span>
                     <span class="cart-item-spec-val"><span class="cart-item-color-dot" style="background:${getColorHex(item.shelfColor)}"></span>${item.shelfColor}</span>
-                    ${item.extras && item.extras !== 'Standard' ? `<span class="cart-item-spec-label">Opcje</span><span class="cart-item-spec-val">${item.extras}</span>` : ''}
+                    ${item.extras && item.extras !== 'Standard' ? `<span class="cart-item-spec-label">Optionen</span><span class="cart-item-spec-val">${item.extras}</span>` : ''}
                 </div>
                 <div style="font-size:11px;color:#9ca3af;margin-top:4px">Anzahl: ${item.quantity}</div>
             </div>
@@ -4657,11 +4657,18 @@ function updateDividerIconsVisibility() { if (!shelfContainer || !shelfTypeSelec
 
 
         function getCurrentWidth() { const widthOption = widthSelect.value; if (widthOption === 'custom') { if (customWidthInput) { return parseInt(customWidthInput.value) || 35; } else { return 35; } } else if (widthOption && widthOption !== "") { return parseInt(widthOption); } return NaN; }
-        function updateDepthOptions() { const width = getCurrentWidth(); const height = heightSelect.value; const currentDepth = depthSelect.value; let availableDepths = ['10']; const widthValue = widthSelect.value; let allow15 = false; if (isNaN(width) || !height || height === "") { depthSelect.innerHTML = '<option value="">-- Auswählen --</option>'; depthSelect.value = ""; return; } if (widthValue === "custom") { const customWidth = width; const standardWidthKey = customWidth < 39 ? "34" : customWidth < 47 ? "44" : customWidth < 54 ? "50" : "60"; if (pricing[standardWidthKey]?.[height]?.['15'] && Object.keys(pricing[standardWidthKey]?.[height]?.['15']).length > 0) { allow15 = true; } } else { const standardWidthKey = String(width); if (pricing[standardWidthKey]?.[height]?.['15'] && Object.keys(pricing[standardWidthKey]?.[height]?.['15']).length > 0) { allow15 = true; } } if (allow15) availableDepths.push('15'); depthSelect.innerHTML = '<option value="">-- Auswählen --</option>'; availableDepths.forEach(depth => { const option = document.createElement('option'); option.value = depth; option.textContent = `${depth} cm`; depthSelect.appendChild(option); }); if (availableDepths.includes(currentDepth)) { depthSelect.value = currentDepth; } else { depthSelect.value = ""; } }
+        function updateDepthOptions() { const width = getCurrentWidth(); const height = heightSelect.value; const currentDepth = depthSelect.value; let availableDepths = ['10']; const widthValue = widthSelect.value; let allow15 = false; if (isNaN(width) || !height || height === "") { depthSelect.innerHTML = '<option value="">-- Auswählen --</option>'; depthSelect.value = ""; return; } if (widthValue === "custom") { const customWidth = width; const standardWidthKey = customWidth < 39 ? "34" : customWidth < 47 ? "44" : customWidth < 54 ? "50" : "60"; if (pricing[standardWidthKey]?.[height]?.['15'] && Object.keys(pricing[standardWidthKey]?.[height]?.['15']).length > 0) { allow15 = true; } } else { const standardWidthKey = String(width); if (pricing[standardWidthKey]?.[height]?.['15'] && Object.keys(pricing[standardWidthKey]?.[height]?.['15']).length > 0) { allow15 = true; } } const disableDepth15 = (height === '80' && (width === 50 || width === 60));
+if (disableDepth15) {
+    depthSelect.innerHTML = '<option value="10">10 cm</option>';
+    depthSelect.value = '10';
+    depthSelect.disabled = true;
+    return;
+}
+if (allow15) availableDepths.push('15'); depthSelect.innerHTML = '<option value="">-- Auswählen --</option>'; availableDepths.forEach(depth => { const option = document.createElement('option'); option.value = depth; option.textContent = `${depth} cm`; depthSelect.appendChild(option); }); if (availableDepths.includes(currentDepth)) { depthSelect.value = currentDepth; } else { depthSelect.value = ""; } }
         function updateShelfCountOptions() { const height = heightSelect.value; const shelfType = shelfTypeSelect.value; const currentValue = shelfCountSelect.value; let options = { '0': 'keine Böden' }; if (!height || height === "" || shelfType === 'mug_shelf' || shelfType === 'modular') { shelfCountSelect.innerHTML = ''; if (!height || height === "") { const option = document.createElement('option'); option.value = '0'; option.textContent = 'keine Böden'; shelfCountSelect.appendChild(option); shelfCountSelect.value = '0'; } return; } if (height === "40") options['2'] = '2 Böden'; else if (height === "60") { options['2'] = '2 Böden'; options['3'] = '3 Böden'; } else if (height === "80") { options['2'] = '2 Böden'; options['3'] = '3 Böden'; options['4'] = '4 Böden'; options['5'] = '5 Böden'; } shelfCountSelect.innerHTML = ''; for (const value in options) { const option = document.createElement('option'); option.value = value; option.textContent = options[value]; shelfCountSelect.appendChild(option); } if (options.hasOwnProperty(currentValue)) { shelfCountSelect.value = currentValue; } else { shelfCountSelect.value = '0'; } if (typeof showOrHideCustomShelfToggle === 'function') showOrHideCustomShelfToggle(); }
         function checkCustomWidth() { const isCustom = widthSelect.value === 'custom'; if(customWidthInput && customWidthDisplay && customWidthFee) { customWidthInput.style.display = isCustom ? 'block' : 'none'; customWidthDisplay.style.display = isCustom ? 'inline' : 'none'; customWidthFee.style.display = isCustom ? 'inline' : 'none'; if (isCustom) { customWidthDisplay.textContent = customWidthInput.value + ' cm'; } } handleDimensionChange(); }
         function handleDimensionChange() { if (shelfTypeSelect.value !== 'mug_shelf') { updateDepthOptions(); updateShelfCountOptions(); } if (typeof showOrHideCustomShelfToggle === 'function') showOrHideCustomShelfToggle(); if (typeof customShelfPositionEnabled !== 'undefined' && customShelfPositionEnabled) { disableCustomPositions(); } updatePreview(); updateOrderSummary(); }
-        function handleMugShelfHeightChange(isLoading = false) { const height = heightSelect.value; if (shelfCountSelect && mugShelfDividersOptionsDiv) { if (height === '60') { shelfCountSelect.innerHTML = '<option value="3">3 półki (stałe)</option>'; shelfCountSelect.value = '3'; mugShelfDividersOptionsDiv.style.display = 'block'; } else if (height === '40') { shelfCountSelect.innerHTML = '<option value="2">2 półki (stałe)</option>'; shelfCountSelect.value = '2'; mugShelfDividersOptionsDiv.style.display = 'block'; } else { shelfCountSelect.innerHTML = '<option value="">-- Auswählen --</option>'; shelfCountSelect.value = ''; mugShelfDividersOptionsDiv.style.display = 'none'; } if (!isLoading) { if(dividersTopCheckbox) dividersTopCheckbox.checked = false; if(dividersMiddleCheckbox) dividersMiddleCheckbox.checked = false; if(dividersBottomCheckbox) dividersBottomCheckbox.checked = false; if (typeof updateDividerIconActiveStates === 'function') updateDividerIconActiveStates(); } } if (!isLoading) { updatePreview(); updateOrderSummary(); } }
+        function handleMugShelfHeightChange(isLoading = false) { const height = heightSelect.value; if (shelfCountSelect && mugShelfDividersOptionsDiv) { if (height === '60') { shelfCountSelect.innerHTML = '<option value="3">3 Böden (fest)</option>'; shelfCountSelect.value = '3'; mugShelfDividersOptionsDiv.style.display = 'block'; } else if (height === '40') { shelfCountSelect.innerHTML = '<option value="2">2 Böden (fest)</option>'; shelfCountSelect.value = '2'; mugShelfDividersOptionsDiv.style.display = 'block'; } else { shelfCountSelect.innerHTML = '<option value="">-- Auswählen --</option>'; shelfCountSelect.value = ''; mugShelfDividersOptionsDiv.style.display = 'none'; } if (!isLoading) { if(dividersTopCheckbox) dividersTopCheckbox.checked = false; if(dividersMiddleCheckbox) dividersMiddleCheckbox.checked = false; if(dividersBottomCheckbox) dividersBottomCheckbox.checked = false; if (typeof updateDividerIconActiveStates === 'function') updateDividerIconActiveStates(); } } if (!isLoading) { updatePreview(); updateOrderSummary(); } }
         
       function handleShelfTypeChange(isLoading = false) {
              const shelfType = shelfTypeSelect.value;
@@ -5918,7 +5925,7 @@ function fitCameraToShelf() {
         if (!dividersTopChecked && !dividersMiddleChecked && !dividersBottomChecked) {
             return null;
         }
-        if (widthVal == 84) { if (dividersTopChecked) dividerFee += 33; if (dividersMiddleChecked) dividerFee += 33; if (dividersBottomChecked) dividerFee += 33; } else { let feePerDividerRow = 0; if (widthVal == 44) feePerDividerRow = 27; else if (widthVal == 60) feePerDividerRow = 40; if (feePerDividerRow > 0) { if (dividersTopChecked) dividerFee += feePerDividerRow; if (dividersMiddleChecked) dividerFee += feePerDividerRow; if (dividersBottomChecked) dividerFee += feePerDividerRow; } } 
+        if (widthVal == 84 || widthVal == 44 || widthVal == 60) { const feePerRow = (typeof DIVIDER_FEES !== 'undefined' && DIVIDER_FEES[String(widthVal)]) ? DIVIDER_FEES[String(widthVal)] : 5; if (dividersTopChecked) dividerFee += feePerRow; if (dividersMiddleChecked) dividerFee += feePerRow; if (dividersBottomChecked) dividerFee += feePerRow; } 
     } else { let baseWidthKey; const isCustomWidth = widthSelect.value === 'custom'; if (isCustomWidth) { if (isNaN(widthVal) || widthVal < 35 || widthVal > 59) return null; baseWidthKey = widthVal < 39 ? "34" : widthVal < 47 ? "44" : widthVal < 54 ? "50" : "60"; extraFee = FEES.customWidth; } else { baseWidthKey = String(widthVal); } if (pricing[baseWidthKey]?.[heightVal]?.[depthVal]?.[shelfCountVal] !== undefined) { basePrice = pricing[baseWidthKey][heightVal][depthVal][shelfCountVal]; } else { return null; } if (document.getElementById('noTopShelf')?.checked) deduction += FEES.noTopShelf; if (shelfType === 'standing' && document.getElementById('noBottomShelf')?.checked) deduction += FEES.noBottomShelf; } if (basePrice === null) return null; const customFee = (typeof customPositionsModified !== 'undefined' && customPositionsModified) ? FEES.customPositions : 0; const totalPrice = basePrice + extraFee + dividerFee + customFee - deduction; return { base: basePrice, extra: extraFee, divider: dividerFee, customFee: customFee, deduction: deduction, total: Math.max(FEES.minPrice, totalPrice) }; }
         function updateSectionHighlights() {
             const sections = [shelfTypeSectionAnchor, dimensionSectionAnchor, colorSectionAnchor, shelfCountSection];
@@ -6125,7 +6132,7 @@ function fitCameraToShelf() {
             }
         }
     }
-    document.getElementById("gapSummary").textContent = gT; const gapSummaryLi2 = document.getElementById("gapSummary")?.parentElement; const gapDisplayP2 = document.getElementById("gapDisplay"); if (typeof customShelfPositionEnabled !== 'undefined' && customShelfPositionEnabled) { if (gapSummaryLi2) gapSummaryLi2.style.display = 'none'; if (gapDisplayP2) gapDisplayP2.style.display = 'none'; } const customPosRow = document.getElementById('customPosSummaryRow'); const customPosSummaryEl = document.getElementById('customPosSummary'); if (customPosRow && customPosSummaryEl) { const cps2 = typeof getCustomPositionSummary === 'function' ? getCustomPositionSummary() : null; if (cps2) { const d2 = cps2.distances; const isCharged = (typeof customPositionsModified !== 'undefined' && customPositionsModified); let h2 = '<div style="display:flex;flex-direction:column;gap:4px">'; h2 += '<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">'; h2 += '<span style="font-size:9px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:0.05em">Rozmieszczenie</span>'; if (isCharged) { h2 += '<span style="background:#16a34a;color:#fff;padding:2px 8px;border-radius:20px;font-size:9px;font-weight:700">+50€</span>'; } h2 += '</div>'; h2 += '<div style="display:flex;flex-wrap:wrap;gap:4px">'; for (let ii = 0; ii < d2.length; ii++) { h2 += '<span style="background:#f0fdf4;border:1px solid #bbf7d0;color:#15803d;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:700">' + d2[ii] + ' cm</span>'; } h2 += '</div></div>'; customPosSummaryEl.innerHTML = h2; customPosRow.style.display = 'flex'; } else { customPosRow.style.display = 'none'; } }
+    document.getElementById("gapSummary").textContent = gT; const gapSummaryLi2 = document.getElementById("gapSummary")?.parentElement; const gapDisplayP2 = document.getElementById("gapDisplay"); if (typeof customShelfPositionEnabled !== 'undefined' && customShelfPositionEnabled) { if (gapSummaryLi2) gapSummaryLi2.style.display = 'none'; if (gapDisplayP2) gapDisplayP2.style.display = 'none'; } const customPosRow = document.getElementById('customPosSummaryRow'); const customPosSummaryEl = document.getElementById('customPosSummary'); if (customPosRow && customPosSummaryEl) { const cps2 = typeof getCustomPositionSummary === 'function' ? getCustomPositionSummary() : null; if (cps2) { const d2 = cps2.distances; const isCharged = (typeof customPositionsModified !== 'undefined' && customPositionsModified); let h2 = '<div style="display:flex;flex-direction:column;gap:4px">'; h2 += '<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">'; h2 += '<span style="font-size:9px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:0.05em">ANORDNUNG</span>'; if (isCharged) { h2 += '<span style="background:#16a34a;color:#fff;padding:2px 8px;border-radius:20px;font-size:9px;font-weight:700">+12€</span>'; } h2 += '</div>'; h2 += '<div style="display:flex;flex-wrap:wrap;gap:4px">'; for (let ii = 0; ii < d2.length; ii++) { h2 += '<span style="background:#f0fdf4;border:1px solid #bbf7d0;color:#15803d;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:700">' + d2[ii] + ' cm</span>'; } h2 += '</div></div>'; customPosSummaryEl.innerHTML = h2; customPosRow.style.display = 'flex'; } else { customPosRow.style.display = 'none'; } }
     document.getElementById("gapSummaryDisplay").textContent = gT;
     const gapSummaryLi = document.getElementById("gapSummary")?.parentElement;
     const gapDisplayP = document.getElementById("gapDisplay");
@@ -6136,19 +6143,19 @@ function fitCameraToShelf() {
         const selectedMount = document.querySelector('input[name="mugShelfMount"]:checked');
         if (selectedMount) o.push(selectedMount.value === 'hanging' ? 'Hängende Montage' : 'Stehende Montage');
         const dividersSelected = [];
-        if (dividersTopCheckbox?.checked) dividersSelected.push("góra");
-        if (dividersMiddleCheckbox?.checked) dividersSelected.push("środek");
-        if (dividersBottomCheckbox?.checked) dividersSelected.push("dół");
+        if (dividersTopCheckbox?.checked) dividersSelected.push("oben");
+        if (dividersMiddleCheckbox?.checked) dividersSelected.push("mitte");
+        if (dividersBottomCheckbox?.checked) dividersSelected.push("unten");
         if (dividersSelected.length > 0) o.push("Trennwände: " + dividersSelected.join(", "));
     } else if (currentShelfType === 'modular') {
         if (document.getElementById('modularHanging')?.checked) o.push("Wersja wisząca");
         if (document.getElementById('modularStanding')?.checked) o.push("Wersja stojąca");
-        if (document.getElementById('modularNoTopShelf')?.checked) o.push("bez górnej półki");
-        if (document.getElementById('modularNoBottomShelf')?.checked) o.push("bez dolnej podstawy");
+        if (document.getElementById('modularNoTopShelf')?.checked) o.push("ohne oberes Brett");
+        if (document.getElementById('modularNoBottomShelf')?.checked) o.push("ohne untere Platte");
     } else {
-        if (document.getElementById("noTopShelf")?.checked) o.push("bez górnej półki");
+        if (document.getElementById("noTopShelf")?.checked) o.push("ohne oberes Brett");
         const isStandingType = (currentShelfType === "standing");
-        if (isStandingType && document.getElementById("noBottomShelf")?.checked) o.push("bez dolnej półki (podstawy)");
+        if (isStandingType && document.getElementById("noBottomShelf")?.checked) o.push("ohne untere Platte");
     }
     document.getElementById("extraOptionsSummary").textContent = o.length ? o.join(" / ") : "Standard";
     if (mobileIconDetailsType) {
@@ -6447,9 +6454,9 @@ function generateOrderCode() { const shelfTypeVal = shelfTypeSelect.value; const
                 rawOptions.mount = mountType;
                 
                 const dividers = [];
-                if (dividerCode.includes('g')) { dividers.push("góra"); rawOptions.dividersTop = true; }
-                if (dividerCode.includes('m')) { dividers.push("środek"); rawOptions.dividersMiddle = true; }
-                if (dividerCode.includes('d')) { dividers.push("dół"); rawOptions.dividersBottom = true; }
+                if (dividerCode.includes('g')) { dividers.push("oben"); rawOptions.dividersTop = true; }
+                if (dividerCode.includes('m')) { dividers.push("mitte"); rawOptions.dividersMiddle = true; }
+                if (dividerCode.includes('d')) { dividers.push("unten"); rawOptions.dividersBottom = true; }
                 if (dividerCode.length > 0 && dividers.length === 0 && dividerCode !== 'n') return { error: `Ungültiger Trennwandcode: ${dividerCode}.`};
                 if (dividers.length > 0) optionsText.push(`Trennwände: ${dividers.join(', ')}`);
                 
@@ -7034,7 +7041,7 @@ function generateOrderCode() { const shelfTypeVal = shelfTypeSelect.value; const
 
             // Kod konfiguracyjny
             ctx.fillStyle = '#aaaaaa'; ctx.font = '600 12px Arial, sans-serif';
-            ctx.fillText('KOD KONFIGURACYJNY', px, bottomY + 52);
+            ctx.fillText('KONFIGURATIONSCODE', px, bottomY + 52);
             ctx.fillStyle = '#16a34a'; ctx.font = 'bold 13px "Courier New", monospace';
             let displayCode = code;
             while (ctx.measureText(displayCode).width > maxTextW && displayCode.length > 8) displayCode = displayCode.slice(0,-2)+'…';
@@ -7622,7 +7629,7 @@ function generateOrderCode() { const shelfTypeVal = shelfTypeSelect.value; const
                 const isMug = shelfTypeSelect && shelfTypeSelect.value === 'mug_shelf';
                 if (isMug) {
                     const hVal = heightSelect ? heightSelect.value : '';
-                    divDimEl.textContent = hVal === '60' ? '12,5 × 10,9 cm | dół: 18 cm' : '12,5 × 10,9 cm';
+                    divDimEl.textContent = hVal === '60' ? '12,5 × 10,9 cm | unten: 18 cm' : '12,5 × 10,9 cm';
                     divDimRow.style.display = 'flex';
                 } else {
                     divDimRow.style.display = 'none';
@@ -8985,7 +8992,7 @@ async function generateCompositeImage(shelves) {
 
     if (totalDiscount > 0) {
         ctx.fillStyle = '#9ca3af'; ctx.font = '600 12px Arial,sans-serif';
-        ctx.fillText('RABATY', c2x, barMid - 16);
+        ctx.fillText('RABATT', c2x, barMid - 16);
         if (discount10 > 0) { ctx.fillStyle = '#16a34a'; ctx.font = '500 13px Arial,sans-serif'; ctx.fillText('✓  -'+discount10.toFixed(2)+' zl', c2x, barMid); }
         if (discount25 > 0) { ctx.fillStyle = '#16a34a'; ctx.font = '500 13px Arial,sans-serif'; ctx.fillText('✓  -'+discount25.toFixed(2)+' zl', c2x, barMid + 20); }
     }
@@ -9322,7 +9329,7 @@ async function generateCompositeImage(shelves) {
         ctx.strokeStyle = '#f3f4f6'; ctx.lineWidth = 1;
         ctx.beginPath(); ctx.roundRect(x + 14, codeBoxY, SHELF_W - 28, 46, 6); ctx.stroke();
         ctx.fillStyle = '#9ca3af'; ctx.font = '500 11px Arial,sans-serif';
-        ctx.fillText('KOD KONFIGURACYJNY', x + 22, codeBoxY + 14);
+        ctx.fillText('KONFIGURATIONSCODE', x + 22, codeBoxY + 14);
         ctx.fillStyle = '#111827'; ctx.font = 'bold 16px "Courier New",monospace';
         let dCode = d.code || '—';
         while (ctx.measureText(dCode).width > SHELF_W - 44 && dCode.length > 8) dCode = dCode.slice(0,-2)+'…';
@@ -9375,7 +9382,7 @@ async function generateCompositeImage(shelves) {
     if (totalDiscount > 0) {
         ctx.fillStyle = '#9ca3af'; ctx.font = '600 12px Arial,sans-serif';
         const discountStartY = discount10 > 0 && discount25 > 0 ? barMid - 20 : barMid - 8;
-        ctx.fillText('RABATY', c2x, discountStartY - 14);
+        ctx.fillText('RABATT', c2x, discountStartY - 14);
         if (discount10 > 0) {
             ctx.fillStyle = '#16a34a'; ctx.font = '500 14px Arial,sans-serif';
             ctx.fillText('✓  -'+discount10.toFixed(2)+'€', c2x, discountStartY + 8);
@@ -9388,7 +9395,7 @@ async function generateCompositeImage(shelves) {
 
     // Kolumna 3: cena finalna
     ctx.fillStyle = '#9ca3af'; ctx.font = '600 12px Arial,sans-serif';
-    ctx.fillText('ŁĄCZNIE DO ZAPŁATY', c3x, barMid - 18);
+    ctx.fillText('GESAMTBETRAG', c3x, barMid - 18);
     // Przekreślona suma
     if (totalDiscount > 0) {
         ctx.fillStyle = '#d1d5db'; ctx.font = '500 17px Arial,sans-serif';
